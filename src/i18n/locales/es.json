@@ -56,38 +56,6 @@
     "title": "Soluciones",
     "titleHighlight": "Integrales",
     "description": "Ofrecemos un portafolio completo de servicios tecnológicos diseñados para impulsar la transformación digital de tu organización.",
-    "items": {
-      "ai": {
-        "title": "Inteligencia Artificial",
-        "description": "Implementamos soluciones de IA y machine learning para automatizar procesos, analizar datos y generar insights accionables para tu negocio.",
-        "features": ["Machine Learning", "NLP", "Computer Vision", "Predictive Analytics"]
-      },
-      "software": {
-        "title": "Desarrollo de Software",
-        "description": "Creamos aplicaciones web y móviles a medida, utilizando las últimas tecnologías y metodologías ágiles para entregar productos de alta calidad.",
-        "features": ["Web Apps", "Mobile Apps", "APIs", "Microservicios"]
-      },
-      "data": {
-        "title": "Arquitectura de Datos",
-        "description": "Diseñamos e implementamos arquitecturas de datos escalables que permiten gestionar, procesar y analizar grandes volúmenes de información.",
-        "features": ["Data Warehousing", "ETL/ELT", "Big Data", "Data Governance"]
-      },
-      "cloud": {
-        "title": "Cloud & DevOps",
-        "description": "Migración, optimización y gestión de infraestructura en la nube con prácticas DevOps para maximizar eficiencia y reducir costos operativos.",
-        "features": ["AWS/Azure/GCP", "Kubernetes", "CI/CD", "IaC"]
-      },
-      "security": {
-        "title": "Ciberseguridad",
-        "description": "Protegemos tus activos digitales con soluciones de seguridad integral, desde auditorías hasta implementación de controles avanzados.",
-        "features": ["Security Audit", "Penetration Testing", "Compliance", "SOC"]
-      },
-      "bi": {
-        "title": "Business Intelligence",
-        "description": "Transformamos tus datos en conocimiento estratégico mediante dashboards interactivos, reportes automatizados y análisis avanzado.",
-        "features": ["Dashboards", "KPIs", "Reporting", "Data Visualization"]
-      }
-    },
     "cta": {
       "title": "¿Necesitas una solución personalizada?",
       "description": "Contáctanos y diseñemos juntos la estrategia tecnológica para tu negocio.",
@@ -159,7 +127,6 @@
         "description": "9:00 - 18:00 (ART)"
       }
     },
-    "social": "Síguenos",
     "form": {
       "title": "Envíanos un mensaje",
       "name": "Nombre completo",
@@ -178,15 +145,7 @@
       "successDescription": "Nos pondremos en contacto contigo pronto.",
       "privacy": "Al enviar este formulario, aceptas nuestra política de privacidad."
     },
-    "services": {
-      "ai": "Inteligencia Artificial",
-      "software": "Desarrollo de Software",
-      "data": "Arquitectura de Datos",
-      "cloud": "Cloud & DevOps",
-      "security": "Ciberseguridad",
-      "bi": "Business Intelligence",
-      "other": "Otro"
-    }
+    "social": "Síguenos"
   },
   "footer": {
     "description": "Consultora especializada en transformación digital e inteligencia artificial. Impulsamos la innovación empresarial desde Tucumán, Argentina.",

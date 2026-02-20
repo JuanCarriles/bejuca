@@ -1,10 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/context/ThemeContext';
 import { Facebook, Instagram, ArrowUp } from 'lucide-react';
+import { useServicesData, resolveTranslation } from '@/hooks/useServicesData';
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const { theme } = useTheme();
+  const { services } = useServicesData();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -19,13 +22,10 @@ export default function Footer() {
   };
 
   const footerLinks = {
-    services: [
-      { name: t('services.items.ai.title'), href: '#servicios' },
-      { name: t('services.items.software.title'), href: '#servicios' },
-      { name: t('services.items.data.title'), href: '#servicios' },
-      { name: t('services.items.cloud.title'), href: '#servicios' },
-      { name: t('services.items.security.title'), href: '#servicios' },
-    ],
+    services: services.slice(0, 5).map((s) => ({
+      name: resolveTranslation(s.title, lang),
+      href: '#servicios',
+    })),
     company: [
       { name: t('about.label'), href: '#nosotros' },
       { name: t('about.values.experiencia.title'), href: '#nosotros' },

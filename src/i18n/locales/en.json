@@ -56,38 +56,6 @@
     "title": "Comprehensive",
     "titleHighlight": "Solutions",
     "description": "We offer a complete portfolio of technological services designed to drive your organization's digital transformation.",
-    "items": {
-      "ai": {
-        "title": "Artificial Intelligence",
-        "description": "We implement AI and machine learning solutions to automate processes, analyze data, and generate actionable insights for your business.",
-        "features": ["Machine Learning", "NLP", "Computer Vision", "Predictive Analytics"]
-      },
-      "software": {
-        "title": "Software Development",
-        "description": "We create custom web and mobile applications using the latest technologies and agile methodologies to deliver high-quality products.",
-        "features": ["Web Apps", "Mobile Apps", "APIs", "Microservices"]
-      },
-      "data": {
-        "title": "Data Architecture",
-        "description": "We design and implement scalable data architectures that enable managing, processing, and analyzing large volumes of information.",
-        "features": ["Data Warehousing", "ETL/ELT", "Big Data", "Data Governance"]
-      },
-      "cloud": {
-        "title": "Cloud & DevOps",
-        "description": "Migration, optimization, and management of cloud infrastructure with DevOps practices to maximize efficiency and reduce operational costs.",
-        "features": ["AWS/Azure/GCP", "Kubernetes", "CI/CD", "IaC"]
-      },
-      "security": {
-        "title": "Cybersecurity",
-        "description": "We protect your digital assets with comprehensive security solutions, from audits to implementation of advanced controls.",
-        "features": ["Security Audit", "Penetration Testing", "Compliance", "SOC"]
-      },
-      "bi": {
-        "title": "Business Intelligence",
-        "description": "We transform your data into strategic knowledge through interactive dashboards, automated reports, and advanced analytics.",
-        "features": ["Dashboards", "KPIs", "Reporting", "Data Visualization"]
-      }
-    },
     "cta": {
       "title": "Need a custom solution?",
       "description": "Contact us and let's design the technology strategy for your business together.",
@@ -177,15 +145,6 @@
       "success": "Message sent!",
       "successDescription": "We will get in touch with you soon.",
       "privacy": "By submitting this form, you agree to our privacy policy."
-    },
-    "services": {
-      "ai": "Artificial Intelligence",
-      "software": "Software Development",
-      "data": "Data Architecture",
-      "cloud": "Cloud & DevOps",
-      "security": "Cybersecurity",
-      "bi": "Business Intelligence",
-      "other": "Other"
     }
   },
   "footer": {
