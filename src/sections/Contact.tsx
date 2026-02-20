@@ -23,10 +23,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { smtpexpressClient, SENDER_EMAIL } from '@/lib/smtp';
+import { useServicesData, resolveTranslation } from '@/hooks/useServicesData';
 
 export default function Contact() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const { theme } = useTheme();
+  const { services } = useServicesData();
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -64,9 +67,12 @@ export default function Contact() {
     setHasError(false);
 
     try {
-      const serviceName = formData.service
-        ? t(`contact.services.${formData.service}`)
-        : t('contact.form.servicePlaceholder');
+      const selectedService = services.find((s) => s.id === formData.service);
+      const serviceName = selectedService
+        ? resolveTranslation(selectedService.title, lang)
+        : formData.service === 'other'
+          ? 'Otro'
+          : t('contact.form.servicePlaceholder');
 
       const result = await smtpexpressClient.sendApi.sendMail({
         subject: `Nuevo contacto: ${formData.name} — ${serviceName}`,
@@ -125,13 +131,8 @@ export default function Contact() {
   ];
 
   const serviceOptions = [
-    { key: 'ai', value: 'ai' },
-    { key: 'software', value: 'software' },
-    { key: 'data', value: 'data' },
-    { key: 'cloud', value: 'cloud' },
-    { key: 'security', value: 'security' },
-    { key: 'bi', value: 'bi' },
-    { key: 'other', value: 'other' },
+    ...services.map((s) => ({ key: s.id, value: s.id, label: resolveTranslation(s.title, lang) })),
+    { key: 'other', value: 'other', label: lang === 'en' ? 'Other' : 'Otro' },
   ];
 
   return (
@@ -332,7 +333,7 @@ export default function Contact() {
                               value={option.value}
                               className={`${theme === 'dark' ? 'text-white hover:bg-[#3CB4D8]/20 focus:bg-[#3CB4D8]/20' : 'text-gray-700 hover:bg-cyan-50 focus:bg-cyan-50'}`}
                             >
-                              {t(`contact.services.${option.key}`)}
+                              {option.label}
                             </SelectItem>
                           ))}
                         </SelectContent>

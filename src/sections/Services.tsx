@@ -9,15 +9,37 @@ import {
   Shield,
   BarChart3,
   ArrowRight,
+  type LucideIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useServicesData, resolveTranslation } from '@/hooks/useServicesData';
+import ServiceDetailModal from '@/components/ServiceDetailModal';
+import type { Service } from '@/types/services.types';
+
+const iconMap: Record<string, LucideIcon> = {
+  Brain,
+  Code,
+  Database,
+  Cloud,
+  Shield,
+  BarChart3,
+};
 
 export default function Services() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const { theme } = useTheme();
+  const { services } = useServicesData();
   const sectionRef = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [activeService, setActiveService] = useState<number | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openServiceModal = (service: Service) => {
+    setSelectedService(service);
+    setModalOpen(true);
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,15 +65,6 @@ export default function Services() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
-  const services = [
-    { icon: Brain, key: 'ai', color: '#3CB4D8' },
-    { icon: Code, key: 'software', color: '#5DD3F0' },
-    { icon: Database, key: 'data', color: '#3CB4D8' },
-    { icon: Cloud, key: 'cloud', color: '#5DD3F0' },
-    { icon: Shield, key: 'security', color: '#3CB4D8' },
-    { icon: BarChart3, key: 'bi', color: '#5DD3F0' },
-  ];
 
   return (
     <section
@@ -82,74 +95,83 @@ export default function Services() {
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <div
-              key={service.key}
-              className={`group relative p-6 rounded-2xl border transition-all duration-500 cursor-pointer ${theme === 'dark'
-                ? 'bg-gradient-to-br from-[#243447] to-[#1a2a3a] border-gray-700/50 hover:border-[#3CB4D8]/50'
-                : 'bg-gradient-to-br from-white to-gray-50 border-gray-200 hover:border-[#3CB4D8]/50 shadow-sm'
-                } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeService === index ? 'ring-2 ring-[#3CB4D8]/50' : ''
-                }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-              onMouseEnter={() => setActiveService(index)}
-              onMouseLeave={() => setActiveService(null)}
-            >
-              {/* Gradient Overlay on Hover */}
+          {services.map((service, index) => {
+            const IconComponent = iconMap[service.icon];
+            return (
               <div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{
-                  background: `linear-gradient(135deg, ${service.color}08 0%, transparent 100%)`,
-                }}
-              />
-
-              <div className="relative">
-                {/* Icon */}
+                key={service.id}
+                className={`group relative p-6 rounded-2xl border transition-all duration-500 cursor-pointer ${theme === 'dark'
+                  ? 'bg-gradient-to-br from-[#243447] to-[#1a2a3a] border-gray-700/50 hover:border-[#3CB4D8]/50'
+                  : 'bg-gradient-to-br from-white to-gray-50 border-gray-200 hover:border-[#3CB4D8]/50 shadow-sm'
+                  } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${activeService === index ? 'ring-2 ring-[#3CB4D8]/50' : ''
+                  }`}
+                style={{ transitionDelay: `${index * 100}ms` }}
+                onMouseEnter={() => setActiveService(index)}
+                onMouseLeave={() => setActiveService(null)}
+                onClick={() => openServiceModal(service)}
+              >
+                {/* Gradient Overlay on Hover */}
                 <div
-                  className="w-14 h-14 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110"
-                  style={{ backgroundColor: `${service.color}15` }}
-                >
-                  <service.icon
-                    className="w-7 h-7 transition-colors duration-300"
-                    style={{ color: service.color }}
-                  />
+                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background: `linear-gradient(135deg, ${service.color}08 0%, transparent 100%)`,
+                  }}
+                />
+
+                <div className="relative">
+                  {/* Icon */}
+                  <div
+                    className="w-14 h-14 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: `${service.color}15` }}
+                  >
+                    {IconComponent && (
+                      <IconComponent
+                        className="w-7 h-7 transition-colors duration-300"
+                        style={{ color: service.color }}
+                      />
+                    )}
+                  </div>
+
+                  {/* Title */}
+                  <h3 className={`text-xl font-semibold mb-3 group-hover:text-[#3CB4D8] transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>
+                    {resolveTranslation(service.title, lang)}
+                  </h3>
+
+                  {/* Description */}
+                  <p className={`text-sm leading-relaxed mb-5 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                    }`}>
+                    {resolveTranslation(service.description, lang)}
+                  </p>
+
+                  {/* Features */}
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {service.features.map((feature: string) => (
+                      <span
+                        key={feature}
+                        className={`px-3 py-1 rounded-full text-xs ${theme === 'dark' ? 'bg-gray-700/50 text-gray-300' : 'bg-gray-100 text-gray-600'
+                          }`}
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* CTA */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openServiceModal(service);
+                    }}
+                    className="inline-flex items-center text-[#3CB4D8] text-sm font-medium group/btn"
+                  >
+                    {t('services.learnMore')}
+                    <ArrowRight className="w-4 h-4 ml-1 group-hover/btn:translate-x-1 transition-transform" />
+                  </button>
                 </div>
-
-                {/* Title */}
-                <h3 className={`text-xl font-semibold mb-3 group-hover:text-[#3CB4D8] transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-gray-900'
-                  }`}>
-                  {t(`services.items.${service.key}.title`)}
-                </h3>
-
-                {/* Description */}
-                <p className={`text-sm leading-relaxed mb-5 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                  }`}>
-                  {t(`services.items.${service.key}.description`)}
-                </p>
-
-                {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {(t(`services.items.${service.key}.features`, { returnObjects: true }) as string[]).map((feature: string) => (
-                    <span
-                      key={feature}
-                      className={`px-3 py-1 rounded-full text-xs ${theme === 'dark' ? 'bg-gray-700/50 text-gray-300' : 'bg-gray-100 text-gray-600'
-                        }`}
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-
-                {/* CTA */}
-                <button
-                  onClick={scrollToContact}
-                  className="inline-flex items-center text-[#3CB4D8] text-sm font-medium group/btn"
-                >
-                  {t('services.learnMore')}
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover/btn:translate-x-1 transition-transform" />
-                </button>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* CTA Section */}
@@ -180,6 +202,12 @@ export default function Services() {
           </div>
         </div>
       </div>
+      {/* Service Detail Modal */}
+      <ServiceDetailModal
+        service={selectedService}
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+      />
     </section>
   );
 }
